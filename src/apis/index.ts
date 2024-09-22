@@ -10,18 +10,21 @@ export namespace Request {
     path: string,
     headerAuth: string = useUserStore().token,
     pathVar: string[] = [],
-    body: any = null,
+    body: any = null
   ) {
     const resp = await fetch(
       `${addr}${path}${pathVar.length ? "/" : ""}${pathVar.join("/")}`,
       {
         method: method,
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type":
+            method == "GET"
+              ? "application/x-www-form-urlencoded"
+              : "application/json",
           Authorization: headerAuth,
         },
         body: method == "GET" ? null : JSON.stringify(body),
-      },
+      }
     );
     const obj = (await resp.json()) as {
       msg: string;
@@ -46,17 +49,17 @@ export namespace Request {
     }
 
     export function getMe() {
-      return $<User[]>("GET", "/user/me");
+      return $<User>("GET", "/user/me");
     }
 
     export function getAll() {
-      return $<User[]>("POST", "/user/su/q");
+      return $<User[]>("GET", "/user/su/batch");
     }
   }
 
   export namespace Neko {
     export function getAll() {
-      return $<Neko[]>("POST", "/neko/q");
+      return $<Neko[]>("POST", "/neko/batch");
     }
   }
 }

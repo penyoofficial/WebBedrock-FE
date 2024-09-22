@@ -11,7 +11,7 @@ import type { RouteRecordRaw } from "vue-router";
 
 const user = ref<User>();
 Request.User.getMe().then((resp) => {
-  user.value = resp.data[0];
+  user.value = resp.data;
 });
 
 function handleQuit() {
@@ -30,7 +30,7 @@ function openTag(r: RouteRecordRaw) {
 
 function closeTag(index: number) {
   tags.value.splice(index, 1);
-  router.push(tags.value.length ? tags.value[index].path : "/home");
+  router.push(tags.value[index]?.path || tags.value[index - 1]?.path || "/home");
 }
 
 router.push("/home");

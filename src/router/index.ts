@@ -41,7 +41,7 @@ const router = createRouter({
 router.beforeEach(async (to) => {
   if (to.path == "/login") return true;
   if (to.path != "/login" && !useUserStore().token) return "/login";
-  else if (!canVisit(to, (await Request.User.getMe()).data[0])) return false;
+  else if (!canVisit(to, (await Request.User.getMe()).data)) return false;
   else return true;
 });
 

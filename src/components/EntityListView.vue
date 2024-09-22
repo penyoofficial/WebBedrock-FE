@@ -10,7 +10,7 @@ defineProps<{
 
 const user = ref<User>();
 Request.User.getMe().then((resp) => {
-  user.value = resp.data[0];
+  user.value = resp.data;
 });
 </script>
 
